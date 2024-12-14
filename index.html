@@ -1,1 +1,42 @@
-<!DOCTYPE html><html><head><title>HTTP Client</title></head><body><h1>HTTP Client</h1><button id='getRequest'>Get Server Status</button><script>document.getElementById('getRequest').addEventListener('click', () => {fetch('http://localhost:3000/').then(response => response.text()).then(data => {alert(data);});});</script></body></html>
+<!DOCTYPE html>
+<html>
+<head>
+    <title>HTTP Client</title>
+</head>
+<body>
+    <h1>HTTP Client</h1>
+
+    <button id="getRequest">Get Server Status</button>
+    <button id="postRequest">Send Data</button>
+
+    <script>
+        // Отримання статусу сервера
+        document.getElementById('getRequest').addEventListener('click', () => {
+            fetch('http://localhost:3000/status')
+                .then(response => response.json())
+                .then(data => {
+                    alert(`Server Time: ${data.serverTime}, Request Count: ${data.requestCount}`);
+                });
+        });
+
+        // Відправка даних на сервер
+        document.getElementById('postRequest').addEventListener('click', () => {
+            const data = {
+                name: 'Alice',
+                age: 25
+            };
+            fetch('http://localhost:3000/data', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(data)
+            })
+            .then(response => response.json())
+            .then(data => {
+                alert(`Server Response: ${JSON.stringify(data)}`);
+            });
+        });
+    </script>
+</body>
+</html>
